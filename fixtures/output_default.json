@@ -1,0 +1,46 @@
+[
+  {
+    "id": "50af3fc3-5cd6-5ae7-a840-1642ef91d308",
+    "name": "Shashank Kumar",
+    "primary_email": "shashank@example.com",
+    "country_code": "IN",
+    "skills": [
+      {
+        "name": "javascript",
+        "confidence": 0.95,
+        "sources": [
+          "sha256-2c3f3fa05be6da4f07dc26446df244e3c0d230445219bef13be05cfff015270c"
+        ]
+      },
+      {
+        "name": "node.js",
+        "confidence": 0.95,
+        "sources": [
+          "sha256-2c3f3fa05be6da4f07dc26446df244e3c0d230445219bef13be05cfff015270c"
+        ]
+      },
+      {
+        "name": "python",
+        "confidence": 0.5,
+        "sources": [
+          "sha256-2b699321281b651f0f1c67926437fc0d678ce06ebeb55acf3e26ef3245228ad4"
+        ]
+      },
+      {
+        "name": "react",
+        "confidence": 0.95,
+        "sources": [
+          "sha256-2b699321281b651f0f1c67926437fc0d678ce06ebeb55acf3e26ef3245228ad4",
+          "sha256-2c3f3fa05be6da4f07dc26446df244e3c0d230445219bef13be05cfff015270c"
+        ]
+      },
+      {
+        "name": "typescript",
+        "confidence": 0.5,
+        "sources": [
+          "sha256-2b699321281b651f0f1c67926437fc0d678ce06ebeb55acf3e26ef3245228ad4"
+        ]
+      }
+    ]
+  }
+]

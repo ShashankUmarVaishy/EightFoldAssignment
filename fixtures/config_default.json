@@ -1,0 +1,30 @@
+{
+  "fields": [
+    {
+      "source_path": "candidate_id",
+      "target_path": "id",
+      "type": "string"
+    },
+    {
+      "source_path": "full_name",
+      "target_path": "name",
+      "type": "string"
+    },
+    {
+      "source_path": "emails[0]",
+      "target_path": "primary_email",
+      "type": "string"
+    },
+    {
+      "source_path": "location.country",
+      "target_path": "country_code",
+      "type": "string"
+    },
+    {
+      "source_path": "skills",
+      "target_path": "skills",
+      "type": "array"
+    }
+  ],
+  "on_missing": "null"
+}

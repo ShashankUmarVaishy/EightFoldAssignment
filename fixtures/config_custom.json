@@ -1,0 +1,30 @@
+{
+  "fields": [
+    {
+      "source_path": "full_name",
+      "target_path": "profile.name",
+      "type": "string"
+    },
+    {
+      "source_path": "emails[0]",
+      "target_path": "profile.contacts.email",
+      "type": "string"
+    },
+    {
+      "source_path": "phones[0]",
+      "target_path": "profile.contacts.phone",
+      "type": "string"
+    },
+    {
+      "source_path": "years_experience",
+      "target_path": "total_experience_years",
+      "type": "number"
+    },
+    {
+      "source_path": "overall_confidence",
+      "target_path": "trust_score",
+      "type": "number"
+    }
+  ],
+  "on_missing": "omit"
+}

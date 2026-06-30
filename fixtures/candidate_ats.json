@@ -1,0 +1,28 @@
+{
+  "full_name": "Shashank Kumar",
+  "emails": [
+    "shashank@example.com"
+  ],
+  "phones": [
+    "+919876543210"
+  ],
+  "location": {
+    "city": "Delhi",
+    "region": "Delhi",
+    "country": "India"
+  },
+  "skills": [
+    "JavaScript",
+    "React",
+    "NodeJS"
+  ],
+  "experience": [
+    {
+      "company": "Google LLC",
+      "title": "Software Engineer II",
+      "start": "2024-06",
+      "end": "Present",
+      "summary": "Working on search models."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+MULTI-SOURCE CANDIDATE DATA TRANSFORMER — TECHNICAL DESIGN ONE-PAGER
+
+1. THE PIPELINE BLOCK
+Our transformation platform runs a unidirectional, decoupled pipeline:
+- Detect & Ingest: Reads raw binary streams or string data, generating deterministic SHA-256 content hashes for immutable source tracing.
+- Extract: Pulls structured fields from JSON/CSV files, or executes regex text recognizers to pull names, contacts, and timelines from unstructured files.
+- Standardize: Converts varying data formats into internal canonical targets.
+- Resolve Identity: Groups records into single candidate identity buckets using strict multi-key (email-first) overlap matches.
+- Merge & Reconcile: Applies the Authority Matrix weights to choose winning fields and logs provenance audit trails.
+- Compute Confidence: Averages winning source weights and applies consistency harmony multipliers.
+- Project & Format: Remaps and selects paths based on consumer settings.
+- Validate: Audits outputs against target configuration structures using Zod.
+
+2. CANONICAL OUTPUT SCHEMA & STANDARDS
+Prior to projection, the core engine guarantees a standard candidate format:
+- candidate_id: Deterministic RFC 4122 UUIDv5 calculated using the lower-cased primary email.
+- full_name: Whitespace collapsed, non-alphabetic noise characters stripped, and Title-Cased.
+- emails: Validated via regex, lower-cased, deduplicated, and sorted alphabetically.
+- phones: E.164 compliant international prefix values. Invalid tokens are dropped.
+- location: Nested object of city, region, and country (country is strictly mapped to ISO-3166 alpha-2 format).
+- links: Mapped to linkedin, github, portfolio, and other web links.
+- years_experience: Total years of experience computed across merged, non-overlapping work periods, rounded to 1 decimal place.
+- skills: Lower-cased skills list mapped to canon names, containing confidence weight and source tracing arrays.
+- experience: Timeline list of company, title, start, end, and summary. Dates are normalized to YYYY-MM UTC.
+- provenance: Audit log tracing the field name, source file hash, and resolution method.
+- overall_confidence: Float metric from 0.00 to 1.00 indicatingconsistency.
+
+3. MERGING & CONFLICT RESOLUTION
+- Conflict Policy: Conflicting fields are reconciled using our Authority Matrix source tier weights: Tier 1 (0.95 for ATS JSON), Tier 2 (0.85 for PDF), Tier 3 (0.75 for Github/LinkedIn API URLs), and Tier 4 (0.50 for Recruiter Notes). The highest tier weight wins. In the event of a tier tie, the newer timestamp wins.
+- Array Merges: Mapped skills are grouped by canonical names using a synonym mapping dictionary (e.g. JS to Javascript). Overlapping experience timeline date ranges for the same company are merged by taking minimum start dates and maximum end dates.
+- Confidence: Calculated by averaging the winning tier weights of all active fields. If overlapping sources contradict on timeline fields (different current company or years of experience differing by more than 1.0 year), a 20% consistency penalty is applied.
+
+4. RUNTIME CONFIGURATION & PROJECTION
+- Path Resolution: Interprets string-based path pointers (such as emails[0]) and sets values at custom target path keys (such as profile.email) using dynamic dot-notation object paths.
+- Missing Values: Executes policy actions when target paths cannot be resolved: Omit excludes the key completely; Null assigns a JSON null value; Error throws an exception.
+- Validation: Constructs a recursive Zod object schema dynamically from the configuration. This validates types and structures at runtime before emitting stringified output.
+
+5. EDGE CASES & SCOPE DECISIONS
+Edge Case Mitigations:
+- Circular Identity Loop: If candidate A shares a phone number with B, but their emails differ, they are kept separate. Email matches act as an absolute prerequisite.
+- Phone Collisions: Sharing contact phone strings across different emails flags a phone collision on profiles and reduces their harmony confidence rating.
+- Timeline Gaps: Overlapping experience items are merged to prevent double-counting of experience years, while concurrent full-time roles at different companies flag timeline contradictions and reduce confidence scores.
+- Corrupted Unstructured Files: PDF parsing failures are caught, logged, and return empty string text content (fail-soft fallback) rather than halting execution.
+Descoped Components (Left out under time pressure):
+- Real-time geocoding api requests: Substituted with tokenized country lookup fallbacks.
+- Deep-learning NLP entity recognition: Substituted with regex pattern extractors for text files.
+- Incremental identity clusters sync: Substituted with in-memory disjoint registry sets.

@@ -1,0 +1,8 @@
+
+  Resume - Shashank Kumar
+  Email: shashank@example.com
+  Phone: +919876543210
+  Skills: Python, TypeScript, React
+  Experience:
+  Google Inc. | Software Engineer | 2024-01 to 2024-06
+  

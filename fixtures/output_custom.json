@@ -1,0 +1,13 @@
+[
+  {
+    "profile": {
+      "name": "Shashank Kumar",
+      "contacts": {
+        "email": "shashank@example.com",
+        "phone": "+919876543210"
+      }
+    },
+    "total_experience_years": 2.5,
+    "trust_score": 0.76
+  }
+]
